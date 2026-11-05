@@ -1,12 +1,21 @@
 # Data Center Auditor MCP Server
 
-[![smithery badge](https://smithery.ai/badge/@geese1028/datacenter-mcp)](https://smithery.ai/server/@geese1028/datacenter-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![MCP](https://img.shields.io/badge/MCP-Protocol-orange.svg)](https://modelcontextprotocol.io)
+[![Standard: ASHRAE TC 9.9](https://img.shields.io/badge/ASHRAE-TC_9.9-blue)](https://www.ashrae.org)
+[![Standard: ANSI/ISA-71.04](https://img.shields.io/badge/ISA--71.04-2013-green)](https://www.isa.org)
 
 A deterministic Model Context Protocol (MCP) server for mission-critical AI data centers, high-density direct-to-chip liquid cooling (NVIDIA GB200 NVL72), and Level 1–5 commissioning TDD protocols.
 
 Powered by the first-principles engineering protocols from **[Data Center Field Guides](https://datacenterfieldguides.com)**.
+
+---
+
+## ⚠️ Engineering Safety & Liability Disclaimer
+
+> **IMPORTANT**: The calculation formulas, defect code lookups, and commissioning audit tools provided in this server are for **first-principles theoretical modeling, educational reference, and design review assistance only**. 
+> 
+> Fluid hydraulic dynamics, electrical switching (NFPA 70E), and hydrostatic pressure envelopes (ASME B31.3) in mission-critical hyperscale facilities carry severe life-safety, arc-flash, and equipment-damage risks. Output from this tool **does not substitute for stamped submittals and peer-reviewed design calculations produced by a licensed Professional Engineer (PE)** or manufacturer-certified equipment specifications.
 
 ---
 
@@ -20,28 +29,14 @@ This MCP server equips AI agents with 6 deterministic engineering calculation an
 | `calculate_pipe_friction_loss` | Fluid Hydraulics | Calculates Darcy-Weisbach pressure drop ($\Delta P$), pipe fluid velocity, Reynolds number ($Re$), and erosion risk thresholds ($<0.5\text{ m/s}$ settling, $>2.0\text{ m/s}$ erosion) across DN25–DN100 pipes. | Darcy-Weisbach / Swamee-Jain / ASME B31.3 |
 | `audit_commissioning_script` | TDD Commissioning | Audits MOP, SOP, EOP, and IST Level 1–5 commissioning scripts against physical boundaries, Point of No Return (PONR) rules, and safety gates. | ASHRAE Guideline 0 / NFPA 70E / Uptime |
 | `classify_corrosion_severity` | Environmental | Classifies whitespace atmospheric corrosion severity for Copper and Silver reactivity rates according to ANSI/ISA-71.04-2013 ($G1$, $G2$, $G3$, $GX$). | ANSI/ISA-71.04-2013 / RoHS |
-| `search_field_protocols` | Ground-Truth Search | Full-text keyword and protocol search across the 69-protocol Data Center Field Guides ground truth corpus. | DCFG Field Handbook |
+| `search_field_protocols` | Standard Index | Structured lookup for physical boundary formulas, fatal flaw criteria, and engineering thresholds across the 69 Data Center Field Guide protocols. | DCFG Field Handbook |
 | `lookup_defect_code` | Audit Codes | Fast lookup for fatal commissioning flaws and defect codes (e.g. `A-01`, `A-04`, `B-02`, `B-05`). | DCFG Defect Taxonomy |
 
 ---
 
 ## 🚀 Quick Start & Installation
 
-### Option 1: Install via Smithery (Recommended)
-
-To automatically install for Claude Desktop:
-```bash
-npx -y @smithery/cli install @geese1028/datacenter-mcp --client claude
-```
-
-To automatically install for Cursor:
-```bash
-npx -y @smithery/cli install @geese1028/datacenter-mcp --client cursor
-```
-
----
-
-### Option 2: Manual Configuration for Claude Desktop
+### Option 1: Manual Configuration for Claude Desktop
 
 Add the following to your `claude_desktop_config.json` (on macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`):
 
@@ -58,7 +53,7 @@ Add the following to your `claude_desktop_config.json` (on macOS: `~/Library/App
 
 ---
 
-### Option 3: Manual Configuration for Cursor
+### Option 2: Manual Configuration for Cursor
 
 Create or edit `.cursor/mcp.json` in your project root:
 
@@ -95,11 +90,11 @@ Evaluation according to ANSI/ISA-71.04-2013 Table 1 for 30-day passive coupon ex
 
 ---
 
-## 📚 References & Documentation
+## 📚 References & Comprehensive Specifications
 
-* **Official Specs**: [https://datacenterfieldguides.com](https://datacenterfieldguides.com)
-* **Full Protocol Index**: [https://datacenterfieldguides.com/llms.txt](https://datacenterfieldguides.com/llms.txt)
-* **Unredacted Engineering Protocols**: [https://datacenterfieldguides.com/llms-full.txt](https://datacenterfieldguides.com/llms-full.txt)
+The complete 69-protocol engineering library, case studies, and unredacted handbooks are available at:
+* **Official Website**: [https://datacenterfieldguides.com](https://datacenterfieldguides.com)
+* **AI Specification Summary**: [https://datacenterfieldguides.com/SKILL.md](https://datacenterfieldguides.com/SKILL.md)
 
 ## 📄 License
 MIT © Tristan (Data Center Field Guides)

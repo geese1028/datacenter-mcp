@@ -12,24 +12,29 @@ const __dirname = path.dirname(__filename);
 // Initialize MCP Server
 const server = new McpServer({
   name: 'datacenter-auditor',
-  version: '1.0.0'
+  version: '1.0.1'
 });
 
-// Load Corpus from local data folder or fall back
+// Load Protocol Catalog
 const DATA_DIR = path.join(__dirname, 'data');
-const PROTOCOLS_PATH = path.join(DATA_DIR, 'protocols.txt');
-const CORPUS_PATH = path.join(DATA_DIR, 'corpus.txt');
+const PROTOCOLS_JSON = path.join(DATA_DIR, 'protocols.json');
 
-let corpusText = '';
+let protocols = [];
 try {
-  if (fs.existsSync(PROTOCOLS_PATH)) {
-    corpusText = fs.readFileSync(PROTOCOLS_PATH, 'utf-8');
-  } else if (fs.existsSync(CORPUS_PATH)) {
-    corpusText = fs.readFileSync(CORPUS_PATH, 'utf-8');
+  if (fs.existsSync(PROTOCOLS_JSON)) {
+    protocols = JSON.parse(fs.readFileSync(PROTOCOLS_JSON, 'utf-8'));
   }
 } catch (e) {
   // Silent fallback
 }
+
+const DISCLAIMER = [
+  `-------------------------------------------------------`,
+  `⚠️  ENGINEERING SAFETY DISCLAIMER:`,
+  `This calculation and audit output is provided strictly for first-principles`,
+  `theoretical modeling and peer review. It does not replace stamped drawings`,
+  `from a licensed Professional Engineer (PE) or OEM equipment submittals.`
+].join('\n');
 
 // -------------------------------------------------------------
 // TOOL 1: Audit Commissioning Script (MOP / SOP / EOP / IST)
@@ -94,7 +99,7 @@ server.tool(
           rule: 'EOP Boundary Violation: In-Band Troubleshooting (Rule 04)',
           severity: 'CATEGORY A - IMMEDIATE REJECTION',
           finding: 'Emergency Operating Procedure contains diagnostic or troubleshooting steps during active fault stabilization.',
-          action: 'Purge troubleshooting from EOP. EOP must contain ONLY deterministic state-restoration and isolation actions.'
+          action: 'Purge troubleshooting from EOP. EOP must contain ONLY deterministic state-restoration actions.'
         });
       }
     }
@@ -152,7 +157,8 @@ server.tool(
       ...findings.map((f, i) => `[${i + 1}] ${f.severity}\n    Code   : ${f.code}\n    Rule   : ${f.rule}\n    Finding: ${f.finding}\n    Action : ${f.action}\n`),
       `-------------------------------------------------------`,
       `Reference Standards: ASME B31.3 | NFPA 70E | ASHRAE Guideline 0 | ANSI/ISA-71.04-2013 | ISO-8528-1`,
-      `Ground Truth Corpus: https://datacenterfieldguides.com/SKILL.md`
+      `Ground Truth Protocols: https://datacenterfieldguides.com/SKILL.md`,
+      DISCLAIMER
     ].join('\n');
 
     return {
@@ -233,7 +239,8 @@ server.tool(
       `-------------------------------------------------------`,
       ...notes.map(n => `- ${n}`),
       `-------------------------------------------------------`,
-      `Reference: ASHRAE TC 9.9 Thermal Guidelines for Liquid Cooling | NVIDIA GB200 NVL72 Spec`
+      `Field Guide Reference: https://datacenterfieldguides.com/blog/nvl72-liquid-load-bank-testing-guide`,
+      DISCLAIMER
     ].filter(Boolean).join('\n');
 
     return {
@@ -255,7 +262,6 @@ server.tool(
     coolant_type: z.enum(['water', 'pg25', 'pg30', 'eg25']).optional().default('pg25').describe('Coolant fluid type')
   },
   async ({ flow_lpm, pipe_dn, pipe_length_m, coolant_type }) => {
-    // Nominal to inner diameter in meters
     const dnMap = {
       DN25: 0.0260,
       DN32: 0.0350,
@@ -275,17 +281,11 @@ server.tool(
 
     const d = dnMap[pipe_dn];
     const fluid = fluidProps[coolant_type] || fluidProps.pg25;
-
-    // Conversions
     const q_m3_s = flow_lpm / (1000 * 60);
     const area = Math.PI * Math.pow(d / 2, 2);
     const velocity = q_m3_s / area;
-
-    // Reynolds number: Re = (rho * v * D) / mu
     const reynolds = (fluid.rho * velocity * d) / fluid.mu;
 
-    // Friction factor (f)
-    // Swamee-Jain formula for smooth commercial pipe (roughness e = 0.000015 m)
     const roughness = 0.000015;
     let f;
     let flowRegime;
@@ -299,12 +299,10 @@ server.tool(
       f = 0.25 / Math.pow(Math.log10(term1 + term2), 2);
     }
 
-    // Darcy-Weisbach: delta_P = f * (L/D) * (rho * v^2 / 2) (in Pascals)
     const delta_p_pa = f * (pipe_length_m / d) * (fluid.rho * Math.pow(velocity, 2) / 2);
     const delta_p_kpa = delta_p_pa / 1000;
     const delta_p_psi = delta_p_kpa * 0.145038;
 
-    // Velocity limits evaluation
     const warnings = [];
     let velocityStatus = 'OPTIMAL ENVELOPE (0.8 - 2.0 m/s)';
     if (velocity > 3.0) {
@@ -333,7 +331,8 @@ server.tool(
       `-------------------------------------------------------`,
       ...(warnings.length > 0 ? warnings.map(w => `- ${w}`) : ['- Flow velocity and pressure gradient are within optimal design envelope.']),
       `-------------------------------------------------------`,
-      `Governing Equations: Darcy-Weisbach ΔP = f·(L/D)·(ρv²/2) | Swamee-Jain Friction Factor`
+      `Governing Derivations: https://datacenterfieldguides.com/blog/01-marketing-multiples-are-not-flow`,
+      DISCLAIMER
     ].join('\n');
 
     return {
@@ -343,51 +342,39 @@ server.tool(
 );
 
 // -------------------------------------------------------------
-// TOOL 4: Search Field Protocols (69-Protocol Ground-Truth)
+// TOOL 4: Search Field Protocols (Protocol Standard Index)
 // -------------------------------------------------------------
 server.tool(
   'search_field_protocols',
-  'Searches the Data Center Field Guides ground-truth corpus for commissioning procedures, fatal flaw criteria, and engineering formulas.',
+  'Searches the Data Center Field Guides engineering protocol index for rules, fatal flaw criteria, and physical boundary equations.',
   {
-    query: z.string().describe('Search terms or protocol topic (e.g. "NVL72 manifold", "corrosion coupon", "MOP switching", "Level 4 commissioning", "substation TDD")')
+    query: z.string().describe('Search terms or protocol topic (e.g. "NVL72", "corrosion", "MOP", "BMS", "hydrostatic")')
   },
   async ({ query }) => {
-    if (!corpusText) {
+    const qLower = query.toLowerCase();
+    const terms = qLower.split(/\s+/).filter(t => t.length > 2);
+
+    const matches = protocols.filter(p => {
+      const haystack = (p.id + ' ' + p.topic + ' ' + p.standard + ' ' + p.summary).toLowerCase();
+      return terms.some(t => haystack.includes(t));
+    });
+
+    if (matches.length === 0) {
       return {
-        content: [{ type: 'text', text: `Search offline. Ground truth reference available online at https://datacenterfieldguides.com/llms-full.txt` }]
-      };
-    }
-
-    const terms = query.toLowerCase().split(/\s+/).filter(t => t.length > 2);
-    const paragraphs = corpusText.split(/\n\n+/);
-    
-    const matches = [];
-    for (const para of paragraphs) {
-      const lower = para.toLowerCase();
-      let matchCount = 0;
-      for (const t of terms) {
-        if (lower.includes(t)) matchCount++;
-      }
-      if (matchCount > 0) {
-        matches.push({ score: matchCount, text: para.trim() });
-      }
-    }
-
-    matches.sort((a, b) => b.score - a.score);
-    const topMatches = matches.slice(0, 3);
-
-    if (topMatches.length === 0) {
-      return {
-        content: [{ type: 'text', text: `No direct matches found for "${query}" in the 69-protocol corpus.\nBrowse the full index at: https://datacenterfieldguides.com/llms.txt` }]
+        content: [{ 
+          type: 'text', 
+          text: `No direct matches found for "${query}" in the active protocol index.\nBrowse all 69 engineering protocols online at: https://datacenterfieldguides.com/SKILL.md` 
+        }]
       };
     }
 
     const result = [
-      `Found ${matches.length} matches for "${query}" in Data Center Field Guides Ground Truth:`,
+      `Found ${matches.length} protocol standards matching "${query}":`,
       `=======================================================`,
-      ...topMatches.map((m, i) => `[MATCH ${i + 1} // RELEVANCE SCORE: ${m.score}]\n${m.text}\n`),
+      ...matches.map((m, i) => `[${m.id}] ${m.topic} (${m.standard})\n  Formula : ${m.formula}\n  Summary : ${m.summary}\n`),
       `=======================================================`,
-      `Full unredacted protocol access: https://datacenterfieldguides.com/llms-full.txt`
+      `Complete unredacted chapters & field case studies: https://datacenterfieldguides.com`,
+      DISCLAIMER
     ].join('\n');
 
     return {
@@ -443,7 +430,8 @@ server.tool(
         ? 'RECOMMENDATION: Maintain positive pressurization and replace chemical filters per regular schedule.'
         : 'MANDATORY ACTION: Deploy chemical gas-phase filtration (deep-bed carbon/permanganate) immediately to bring environment under G1 (< 300 Å Cu, < 200 Å Ag).',
       `-------------------------------------------------------`,
-      `Reference: ANSI/ISA-71.04-2013 | Volume 08: Judge a Corrosion Coupon`
+      `Handbook Reference: https://datacenterfieldguides.com/blog/data-center-corrosion-coupon-isa-71-04-guide`,
+      DISCLAIMER
     ].join('\n');
 
     return {
@@ -512,7 +500,7 @@ server.tool(
       return {
         content: [{
           type: 'text',
-          text: `Defect code "${defect_code}" not found in quick table. Refer to the complete defect taxonomy in Volume 07: Refuse the Handover and SKILL.md: https://datacenterfieldguides.com/SKILL.md`
+          text: `Defect code "${defect_code}" not found in quick table. Refer to the complete defect taxonomy in Volume 07: Refuse the Handover: https://datacenterfieldguides.com/SKILL.md`
         }]
       };
     }
@@ -527,7 +515,8 @@ server.tool(
       `Consequence : ${found.consequence}`,
       `Mandate     : ${found.mandate}`,
       `Standards   : ${found.standards}`,
-      `=======================================================`
+      `=======================================================`,
+      DISCLAIMER
     ].join('\n');
 
     return {

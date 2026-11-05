@@ -1,0 +1,44 @@
+[
+  {
+    "id": "RULE-01",
+    "topic": "Thermal Boundary",
+    "standard": "ASHRAE TC 9.9",
+    "formula": "Q_dot = m_dot * Cp * delta_T",
+    "summary": "Mandatory liquid load bank for direct-to-chip NVL72/GB200 testing. Resistive air load banks strictly prohibited for verifying primary/secondary liquid cooling rejection."
+  },
+  {
+    "id": "RULE-02",
+    "topic": "Hydrostatic Testing & Overpressure",
+    "standard": "ASME B31.3",
+    "formula": "P_test = 1.5 * P_design (Relief set to 1.1 * P_test)",
+    "summary": "Calibrated independent pressure relief valve (PSV) required for all hydrostatic leak tests before pressurization to prevent thermal hydraulic rupture."
+  },
+  {
+    "id": "RULE-03",
+    "topic": "Darcy-Weisbach Fluid Hydraulics",
+    "standard": "ASME B31.3 / Hydraulic Institute",
+    "formula": "delta_P = f * (L/D) * (rho * v^2 / 2)",
+    "summary": "Velocity envelope must be maintained between 0.8 m/s and 2.0 m/s for copper/stainless distribution loops. Velocity > 3.0 m/s triggers severe erosion-corrosion rejection."
+  },
+  {
+    "id": "RULE-04",
+    "topic": "MOP & EOP State-Machine Governance",
+    "standard": "NFPA 70E / Uptime M&O",
+    "formula": "State Transitions: S_0 -> S_PONR -> S_Final (Abort allowed only S < S_PONR)",
+    "summary": "All MOPs altering dual-bus or primary cooling redundancy must declare an explicit physical Point of No Return (PONR). EOPs must strictly contain state-restoration actions; zero in-band troubleshooting."
+  },
+  {
+    "id": "RULE-05",
+    "topic": "BMS Alarm Integrity & Time Sync",
+    "standard": "ISA-18.2 / IEEE 1588 PTP",
+    "formula": "Delta_t_SOE <= 1.0 ms across all protective relays & PLCs",
+    "summary": "Pre-handover audit must verify zero Shelved, Forced-Manual, or Out-of-Service alarms. Event sequence recorders must synchronize within +/- 1ms via NTP/PTP."
+  },
+  {
+    "id": "RULE-06",
+    "topic": "Environmental Corrosion Reactivity",
+    "standard": "ANSI/ISA-71.04-2013",
+    "formula": "Level G1: Cu < 300 A/30d, Ag < 200 A/30d",
+    "summary": "Continuous atmospheric monitoring for whitespace electronic reliability. Copper or silver reactivity exceeding G1 voids server OEM RoHS warranty and mandates gas-phase deep-bed filtration."
+  }
+]
