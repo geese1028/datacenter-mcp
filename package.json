@@ -15,7 +15,8 @@
     "data/"
   ],
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "node --test test/*.test.js"
   },
   "keywords": [
     "mcp",
