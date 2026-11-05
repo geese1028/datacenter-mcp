@@ -1,0 +1,38 @@
+{
+  "name": "datacenter-mcp",
+  "version": "1.0.0",
+  "description": "Deterministic physical boundary auditor, NVL72 liquid cooling hydraulics, and commissioning TDD protocol MCP server for mission-critical AI data centers.",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "datacenter-mcp": "./index.js"
+  },
+  "files": [
+    "index.js",
+    "README.md",
+    "LICENSE",
+    "smithery.yaml",
+    "data/"
+  ],
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "claude",
+    "datacenter",
+    "cooling",
+    "liquid-cooling",
+    "nvl72",
+    "gb200",
+    "commissioning",
+    "ashrae"
+  ],
+  "author": "Tristan (Data Center Field Guides)",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.6.1",
+    "zod": "^3.24.2"
+  }
+}
