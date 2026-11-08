@@ -30,7 +30,12 @@
     "commissioning",
     "ashrae"
   ],
-  "author": "Tristan (Data Center Field Guides)",
+  "author": "Tristan Howard (https://datacenterfieldguides.com)",
+  "homepage": "https://datacenterfieldguides.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/geese1028/datacenter-mcp.git"
+  },
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.6.1",
