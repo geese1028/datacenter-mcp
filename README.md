@@ -99,13 +99,19 @@ The complete 74-protocol engineering library, case studies, and 9-Volume field g
 * **Author Profile**: [Tristan Howard — Principal Data Center Systems Engineer & CxA](https://datacenterfieldguides.com/about)
 * **AI Specification & LLM Grounding**: [`SKILL.md`](https://datacenterfieldguides.com/SKILL.md) · [`llms.txt`](https://datacenterfieldguides.com/llms.txt) · [`llms-full.txt`](https://datacenterfieldguides.com/llms-full.txt)
 * **Core Governing Field Protocols**:
-  * [NVL72 Liquid Load Bank Testing: P&ID Hydraulics, Quick Disconnects & Boundary Acceptance](https://datacenterfieldguides.com/blog/nvl72-liquid-load-bank-testing-guide)
+  * [SOP vs. MOP vs. EOP Meaning & Full Form: Data Center RACI Matrix and Field Authorization](https://datacenterfieldguides.com/blog/sop-mop-eop-matrix)
   * [SOP, MOP, and EOP Are Three Papers: Data Center Switching & Emergency Governance](https://datacenterfieldguides.com/blog/sop-mop-eop)
+  * [MOP Point of No Return (PONR): LOTO Isolation, Switching Scripts & Rollback Timing](https://datacenterfieldguides.com/blog/mop-point-of-no-return)
   * [An EOP Stops at the First Safe State: Emergency Operating Procedure Boundaries](https://datacenterfieldguides.com/blog/eop-stops)
-  * [Data Center Corrosion Coupon Testing: ANSI/ISA-71.04-2013 Severity Rates & RoHS G1 Protection](https://datacenterfieldguides.com/blog/data-center-corrosion-coupon-isa-71-04-guide)
+  * [NVIDIA GB200 NVL72 Liquid Cooling EOP: 5-Second Loss-of-Flow Ride-Through](https://datacenterfieldguides.com/blog/liquid-cooling-eop-nvl72)
+  * [NVL72 Liquid Load Bank Testing: P&ID Hydraulics, Quick Disconnects & Boundary Acceptance](https://datacenterfieldguides.com/blog/nvl72-liquid-load-bank-testing-guide)
+  * [Data Center Commissioning Levels 1 to 5 (L0–L6): 5 Levels of Commissioning, L2 Testing & IST](https://datacenterfieldguides.com/blog/commissioning-levels-0-to-6)
+  * [Data Center CFD Verification Guide: Airflow Modeling vs. Physical Whitespace Measurements](https://datacenterfieldguides.com/blog/data-center-cfd-verification-guide)
+  * [Carbon Media & Corrosion Coupon Analysis: ANSI/ISA-71.04-2013 Severity Rates & RoHS G1 Protection](https://datacenterfieldguides.com/blog/data-center-corrosion-coupon-isa-71-04-guide)
+  * [Facility Location Due Diligence Checklist: Data Center Site Selection & Property Audit](https://datacenterfieldguides.com/blog/data-center-facility-location-due-diligence)
+  * [Data Center Technical Due Diligence Checklist: Infrastructure Asset & Engineering Audit](https://datacenterfieldguides.com/blog/data-center-technical-due-diligence-checklist)
   * [A Handover Signature Is a Sentence: Commissioning L4/L5 Custody Transfer Refusal Gates](https://datacenterfieldguides.com/blog/a-signature-is-a-sentence)
   * [Witnessed Is Not the Same as Accepted a Document: Field Commissioning Verification](https://datacenterfieldguides.com/blog/witnessed-or-a-document)
-  * [Data Center Technical Due Diligence Checklist: Infrastructure Asset Audit & Red-Flag Guide](https://datacenterfieldguides.com/blog/data-center-technical-due-diligence-checklist)
 
 ## 📄 License
 MIT © Tristan Howard ([Data Center Field Guides](https://datacenterfieldguides.com/))
