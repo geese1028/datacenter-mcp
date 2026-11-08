@@ -1,5 +1,6 @@
 # Data Center Auditor MCP Server
 
+[![Website](https://img.shields.io/badge/Website-datacenterfieldguides.com-00d4ff.svg)](https://datacenterfieldguides.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![MCP](https://img.shields.io/badge/MCP-Protocol-orange.svg)](https://modelcontextprotocol.io)
 [![Standard: ASHRAE TC 9.9](https://img.shields.io/badge/ASHRAE-TC_9.9-blue)](https://www.ashrae.org)
@@ -7,7 +8,7 @@
 
 A deterministic Model Context Protocol (MCP) server for mission-critical AI data centers, high-density direct-to-chip liquid cooling (NVIDIA GB200 NVL72), and Level 1–5 commissioning TDD protocols.
 
-Powered by the first-principles engineering protocols from **[Data Center Field Guides](https://datacenterfieldguides.com)**.
+Powered by the first-principles engineering protocols from **[Data Center Field Guides](https://datacenterfieldguides.com/)** by **[Tristan Howard](https://datacenterfieldguides.com/about)**.
 
 ---
 
@@ -92,9 +93,19 @@ Evaluation according to ANSI/ISA-71.04-2013 Table 1 for 30-day passive coupon ex
 
 ## 📚 References & Comprehensive Specifications
 
-The complete 69-protocol engineering library, case studies, and unredacted handbooks are available at:
-* **Official Website**: [https://datacenterfieldguides.com](https://datacenterfieldguides.com)
-* **AI Specification Summary**: [https://datacenterfieldguides.com/SKILL.md](https://datacenterfieldguides.com/SKILL.md)
+The complete 74-protocol engineering library, case studies, and 9-Volume field guide series are available at:
+* **Official Website**: [https://datacenterfieldguides.com/](https://datacenterfieldguides.com/)
+* **9-Volume Book Series**: [https://datacenterfieldguides.com/buy](https://datacenterfieldguides.com/buy) · [Amazon Author Central](https://www.amazon.com/author/tristanhoward)
+* **Author Profile**: [Tristan Howard — Principal Data Center Systems Engineer & CxA](https://datacenterfieldguides.com/about)
+* **AI Specification & LLM Grounding**: [`SKILL.md`](https://datacenterfieldguides.com/SKILL.md) · [`llms.txt`](https://datacenterfieldguides.com/llms.txt) · [`llms-full.txt`](https://datacenterfieldguides.com/llms-full.txt)
+* **Core Governing Field Protocols**:
+  * [NVL72 Liquid Load Bank Testing: P&ID Hydraulics, Quick Disconnects & Boundary Acceptance](https://datacenterfieldguides.com/blog/nvl72-liquid-load-bank-testing-guide)
+  * [SOP, MOP, and EOP Are Three Papers: Data Center Switching & Emergency Governance](https://datacenterfieldguides.com/blog/sop-mop-eop)
+  * [An EOP Stops at the First Safe State: Emergency Operating Procedure Boundaries](https://datacenterfieldguides.com/blog/eop-stops)
+  * [Data Center Corrosion Coupon Testing: ANSI/ISA-71.04-2013 Severity Rates & RoHS G1 Protection](https://datacenterfieldguides.com/blog/data-center-corrosion-coupon-isa-71-04-guide)
+  * [A Handover Signature Is a Sentence: Commissioning L4/L5 Custody Transfer Refusal Gates](https://datacenterfieldguides.com/blog/a-signature-is-a-sentence)
+  * [Witnessed Is Not the Same as Accepted a Document: Field Commissioning Verification](https://datacenterfieldguides.com/blog/witnessed-or-a-document)
+  * [Data Center Technical Due Diligence Checklist: Infrastructure Asset Audit & Red-Flag Guide](https://datacenterfieldguides.com/blog/data-center-technical-due-diligence-checklist)
 
 ## 📄 License
-MIT © Tristan (Data Center Field Guides)
+MIT © Tristan Howard ([Data Center Field Guides](https://datacenterfieldguides.com/))
